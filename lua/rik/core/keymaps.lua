@@ -25,3 +25,5 @@ keymap.set("i","(","()<left>",{desc = "auto complete brackets"})
 keymap.set("i","[","[]<left>",{desc = "auto complete brackets"})
 
 vim.keymap.set("i", "<C-H>", "<C-w>")
+
+
