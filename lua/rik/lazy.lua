@@ -12,4 +12,4 @@ end
 
 vim.opt.rtp:prepend(lazypath)
 
-require("lazy").setup("rik.plugins")
+require("lazy").setup({{import = "rik.plugins"},{import = "rik.plugins.lsp"}})

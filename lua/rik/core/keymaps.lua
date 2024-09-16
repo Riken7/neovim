@@ -4,6 +4,8 @@ local keymap = vim.keymap
 
 keymap.set("i","jk","<ESC>", {desc = "Exit insert mode with jk"}) --how it works : in I(nsert) mode when "jk" is press it will escape Insert mode
 keymap.set("n","<leader>nh",":nohl<CR>",{desc = "Clear search highlights"})
+keymap.set("i","<C-k>","<ESC>kA")
+keymap.set("i","<C-j>","<ESC>jA")
 
 --window management
 keymap.set("n","<leader>sv", "<C-w>v", {desc = "split window vertically"})
@@ -20,10 +22,25 @@ keymap.set("n","<leader>tf" , "<cmd>tabnew %<CR>", {desc = "open current buffer 
 
 --auto brackets
 keymap.set("i","\"","\"\"<left>",{desc = "auto"})
+keymap.set("i","\'","\'\'<left>",{desc = "auto"})
 keymap.set("i","{","{}<left>",{desc = "auto complete brackets"})
 keymap.set("i","(","()<left>",{desc = "auto complete brackets"})
 keymap.set("i","[","[]<left>",{desc = "auto complete brackets"})
 
 vim.keymap.set("i", "<C-H>", "<C-w>")
 
+vim.keymap.set("v", "<C-down>", ":m '>+1<CR>gv=gv")
+vim.keymap.set("v", "<C-up>", ":m '<-2<CR>gv=gv")
 
+--replace word
+vim.keymap.set(
+    "n",
+    "<leader>rw",
+    [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gcI<Left><Left><Left>]],
+    { desc = "Search and replace current word under cursor in current file" }
+)
+
+vim.keymap.set("n", "<C-a>", "gg0VG$")
+vim.keymap.set("i", "<C-a>", "<ESC>gg0VG$")
+
+vim.keymap.set("n", "<leader>xt", "<cmd>Telescope colorscheme<cr>", {noremap = true , silent = true, desc = "select themes"})
