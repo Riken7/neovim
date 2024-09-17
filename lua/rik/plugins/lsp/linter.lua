@@ -11,7 +11,7 @@ return {
 			javascriptreact = { "eslint_d" },
 			lua = { "luacheck" },
 			python = { "flake8" },
-			rust = { "cargo" },
+			--rust = { "cargo" },
 			-- cpp = { "clang-tidy" },
 			-- c = { "clang-tidy" },
 		}
@@ -26,7 +26,11 @@ return {
 		})
 
 		-- Corrected key mapping setup
-		vim.api.nvim_set_keymap('n', '<leader>ll', ':lua require("lint").try_lint()<CR>', { noremap = true, silent = true })
+		vim.api.nvim_set_keymap(
+			"n",
+			"<leader>mn",
+			':lua require("lint").try_lint()<CR>',
+			{ noremap = true, silent = true }
+		)
 	end,
 }
-

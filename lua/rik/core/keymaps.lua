@@ -4,15 +4,18 @@ local keymap = vim.keymap
 
 keymap.set("i","jk","<ESC>", {desc = "Exit insert mode with jk"}) --how it works : in I(nsert) mode when "jk" is press it will escape Insert mode
 keymap.set("n","<leader>nh",":nohl<CR>",{desc = "Clear search highlights"})
-keymap.set("i","<C-k>","<ESC>kA")
-keymap.set("i","<C-j>","<ESC>jA")
+keymap.set("i","<C-Up>","<ESC>kA")
+keymap.set("i","<C-Down>","<ESC>jA")
 
 --window management
 keymap.set("n","<leader>sv", "<C-w>v", {desc = "split window vertically"})
 keymap.set("n","<leader>sh" , "<C-w>s" , {desc = "split window horizontally"})
 keymap.set("n","<leader>se" , "<C-w>=", {desc = "map split equal parts"})
 keymap.set("n","<leader>sx" , "<cmd>close<CR>" , {desc = "Close current split" })
-
+keymap.set('n', '<C-h>', '<C-w>h', { noremap = true, silent = true })
+keymap.set('n', '<C-j>', '<C-w>j', { noremap = true, silent = true })
+keymap.set('n', '<C-k>', '<C-w>k', { noremap = true, silent = true })
+keymap.set('n', '<C-l>', '<C-w>l', { noremap = true, silent = true })
 --tab management
 keymap.set("n","<leader>to" , "<cmd>tabnew<CR>" , {desc = "open new tab"})
 keymap.set("n","<leader>tx", "<cmd>tabclose<CR>", {desc = "close tab"} )

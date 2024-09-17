@@ -19,7 +19,7 @@ return {
 				local opts = { buffer = ev.buf, silent = true }
 
 				opts.desc = "Show LSP references"
-				keymap.set("n", "gR", "<cmd>Telescope lsp_references<CR>", opts)
+				keymap.set("n", "gr", "<cmd>Telescope lsp_references<CR>", opts)
 
 				opts.desc = "Go to declaration"
 				keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
@@ -40,10 +40,10 @@ return {
 				keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
 
 				opts.desc = "Show buffer diagnostics"
-				keymap.set("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>", opts)
+				keymap.set("n", "<leader>d", "<cmd>Telescope diagnostics bufnr=0<CR>", opts)
 
 				opts.desc = "Show line diagnostics"
-				keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts)
+				keymap.set("n", "<leader>D", vim.diagnostic.open_float, opts)
 
 				opts.desc = "Go to previous diagnostic"
 				keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
@@ -86,32 +86,24 @@ return {
 		})
 		local java_lsp_path = "/nix/store/dykrjyfxskfsvmrr30pkpyvx46qb6wlr-jdt-language-server-1.38.0/bin/jdtls"
 		lspconfig.jdtls.setup({
-			cmd = { java_lsp_path },
+			cmd = { java_lsp_path, "--add-modules", "java.se", "--add-exports", "java.base/java.lang=ALL-UNNAMED" },
 			capabilities = cmp_nvim_lsp.default_capabilities(),
-			settings = {},
-		})
-
-		vim.api.nvim_create_autocmd("FileType", {
-			pattern = "java",
-			callback = function()
-				local clients = vim.lsp.get_clients()
-				for _, client in ipairs(clients) do
-					if client.name == "jdtls" then
-						jdtls_active = true
-						break
-					end
-				end
-				if not jdtls_active then
-					--if jdtls not active
-					vim.cmd("LspStart jdtls")
-				end
+			filetypes = { "java" },
+			root_dir = function(fname)
+				return lspconfig.util.root_pattern("java")(fname)
+					or lspconfig.util.find_git_ancestor(fname)
+					or lspconfig.util.path.dirname(fname)
 			end,
+			settings = {
+				java = {},
+			},
 		})
 
 		local clangd_path = "/nix/store/x69yrdw40vg6wknmxgqs038q16m95kyp-clang-14.0.6/bin/clang"
 		lspconfig.clangd.setup({
 			cmd = { clangd_path },
 			capabilities = cmp_nvim_lsp.default_capabilities(),
+			filetypes = { "c", "cpp", "objc", "objcpp" },
 			settings = {
 				clangd = {
 					--additional settings
@@ -121,15 +113,26 @@ return {
 
 		local rust_path = "/nix/store/c9mv63b3xck3kacmfir5dzf408kxjq41-rust-analyzer-2024-08-12/bin/rust-analyzer"
 		lspconfig.rust_analyzer.setup({
+			on_attach = function(client, bufnr)
+				vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+			end,
 			cmd = { rust_path },
 			capabilities = cmp_nvim_lsp.default_capabilities(),
+			filetypes = { "rust" },
+			root_dir = lspconfig.util.root_pattern("Cargo.toml", ".git"),
 			settings = {
 				["rust-analyzer"] = {
-					--additional settings
+					cargo = {
+						buildScripts = { enable = true },
+						allFeatures = true,
+					},
+					imports = {
+						granularity = { group = "module" },
+					},
+					procMacro = { enable = true },
 				},
 			},
 		})
-
 		local ts_path =
 			"/nix/store/rv4pwdwp3axbdip0l4fq0i8sa1caws3k-typescript-language-server-4.3.3/bin/typescript-language-server"
 		lspconfig.ts_ls.setup({
