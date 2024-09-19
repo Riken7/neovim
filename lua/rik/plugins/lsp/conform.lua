@@ -7,7 +7,7 @@ return {
 		conform.setup({
 			formatters_by_ft = {
 				lua = { "stylua" },
-				java = { "prettierd" },
+				java = { "google-java-format" },
 				javascript = { "prettierd" },
 				typescript = { "prettierd" },
 				rust = { "rustfmt" },

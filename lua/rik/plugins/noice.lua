@@ -1,0 +1,25 @@
+return {
+--  "folke/noice.nvim",
+--  event = "VeryLazy",
+--  opts = {
+--    -- Noice options
+--    lsp = {
+--      progress = { enabled = true },
+--      override = {
+--        ['msg_show'] = true,
+--        ['msg_showmode'] = false,
+--      },
+--    },
+--    cmdline = {
+--      format = {
+--        cmdline = { icon = '➤', title = 'Command', title_pos = 'center' },
+--        search_down = { icon = '🔍↓', title = 'Search Down', title_pos = 'center' },
+--        search_up = { icon = '🔍↑', title = 'Search Up', title_pos = 'center' },
+--      },
+--    },
+--  },
+--  dependencies = {
+--    "MunifTanjim/nui.nvim",
+--    "rcarriga/nvim-notify",
+--  }
+}

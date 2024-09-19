@@ -29,7 +29,6 @@ return {
 
 				opts.desc = "Show LSP implementations"
 				keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts)
-
 				opts.desc = "Show LSP type definitions"
 				keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts)
 
@@ -84,22 +83,34 @@ return {
 				},
 			},
 		})
-		local java_lsp_path = "/nix/store/dykrjyfxskfsvmrr30pkpyvx46qb6wlr-jdt-language-server-1.38.0/bin/jdtls"
-		lspconfig.jdtls.setup({
-			cmd = { java_lsp_path, "--add-modules", "java.se", "--add-exports", "java.base/java.lang=ALL-UNNAMED" },
-			capabilities = cmp_nvim_lsp.default_capabilities(),
-			filetypes = { "java" },
-			root_dir = function(fname)
-				return lspconfig.util.root_pattern("java")(fname)
-					or lspconfig.util.find_git_ancestor(fname)
-					or lspconfig.util.path.dirname(fname)
-			end,
-			settings = {
-				java = {},
-			},
-		})
+    local jdtls_path = "/nix/store/dykrjyfxskfsvmrr30pkpyvx46qb6wlr-jdt-language-server-1.38.0/bin/jdtls"
 
-		local clangd_path = "/nix/store/x69yrdw40vg6wknmxgqs038q16m95kyp-clang-14.0.6/bin/clang"
+    lspconfig.jdtls.setup({
+      cmd = { jdtls_path, "--add-modules", "java.se", "--add-exports", "java.base/java.lang=ALL-UNNAMED" },
+      root_dir = function(fname)
+        local root_patterns = { ".git", "gradlew", "mvnw" }
+        local found = vim.fs.find(root_patterns, { upward = true })
+        if #found > 0 then
+            return vim.fs.dirname(found[1])
+        else
+            return vim.fs.dirname(fname)
+        end
+      end,
+      capabilities = vim.tbl_deep_extend(
+        "force",
+        vim.lsp.protocol.make_client_capabilities(),
+        require("cmp_nvim_lsp").default_capabilities()
+      ),
+      filetypes = { "java" },
+      settings = {
+        java = {
+          signatureHelp = { enabled = true },
+          contentProvider = { preferred = "fernflower" },
+          import = { enabled = true },
+          rename = { enabled = true },
+        },
+      },
+    })
 		lspconfig.clangd.setup({
 			cmd = { clangd_path },
 			capabilities = cmp_nvim_lsp.default_capabilities(),

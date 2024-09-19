@@ -10,7 +10,7 @@ if not vim.loop.fs_stat(lazypath) then
 	})
 end
 vim.opt.rtp:prepend(lazypath)
-
+vim.g.jupyter_kernel_name = 'python3'
 require("lazy").setup({ { import = "rik.plugins" }, { import = "rik.plugins.lsp" } },{
   checker = {
     enable = true,
