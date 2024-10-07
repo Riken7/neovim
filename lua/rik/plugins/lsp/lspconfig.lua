@@ -68,7 +68,7 @@ return {
 			vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
 		end
 		local lua_ls_path =
-			"/nix/store/cj5fjm41cqkrf0dj3d3fcynks6w1r404-lua-language-server-3.10.5/bin/lua-language-server"
+     "/nix/store/3fp5s0cydnczsh74ylsqni2c3kiapx4s-lua-language-server-3.10.6/bin/lua-language-server" 
 		lspconfig.lua_ls.setup({
 			cmd = { lua_ls_path },
 			capabilities = cmp_nvim_lsp.default_capabilities(),
@@ -83,34 +83,34 @@ return {
 				},
 			},
 		})
-    local jdtls_path = "/nix/store/dykrjyfxskfsvmrr30pkpyvx46qb6wlr-jdt-language-server-1.38.0/bin/jdtls"
+		local jdtls_path = "/nix/store/smcs8wil4sdwn1lgfpir3yzbnfa6nmrc-jdt-language-server-1.39.0/bin/jdtls"
 
-    lspconfig.jdtls.setup({
-      cmd = { jdtls_path, "--add-modules", "java.se", "--add-exports", "java.base/java.lang=ALL-UNNAMED" },
-      root_dir = function(fname)
-        local root_patterns = { ".git", "gradlew", "mvnw" }
-        local found = vim.fs.find(root_patterns, { upward = true })
-        if #found > 0 then
-            return vim.fs.dirname(found[1])
-        else
-            return vim.fs.dirname(fname)
-        end
-      end,
-      capabilities = vim.tbl_deep_extend(
-        "force",
-        vim.lsp.protocol.make_client_capabilities(),
-        require("cmp_nvim_lsp").default_capabilities()
-      ),
-      filetypes = { "java" },
-      settings = {
-        java = {
-          signatureHelp = { enabled = true },
-          contentProvider = { preferred = "fernflower" },
-          import = { enabled = true },
-          rename = { enabled = true },
-        },
-      },
-    })
+		lspconfig.jdtls.setup({
+			cmd = { jdtls_path, "--add-modules", "java.se", "--add-exports", "java.base/java.lang=ALL-UNNAMED" },
+			root_dir = function(fname)
+				local root_patterns = { ".git", "gradlew", "mvnw" }
+				local found = vim.fs.find(root_patterns, { upward = true })
+				if #found > 0 then
+					return vim.fs.dirname(found[1])
+				else
+					return vim.fs.dirname(fname)
+				end
+			end,
+			capabilities = vim.tbl_deep_extend(
+				"force",
+				vim.lsp.protocol.make_client_capabilities(),
+				require("cmp_nvim_lsp").default_capabilities()
+			),
+			filetypes = { "java" },
+			settings = {
+				java = {
+					signatureHelp = { enabled = true },
+					contentProvider = { preferred = "fernflower" },
+					import = { enabled = true },
+					rename = { enabled = true },
+				},
+			},
+		})
 		lspconfig.clangd.setup({
 			cmd = { clangd_path },
 			capabilities = cmp_nvim_lsp.default_capabilities(),
@@ -170,6 +170,12 @@ return {
 					},
 				},
 			},
+		})
+		local tailwindcss_path = "/nix/store/fzlkpk5p2w7piqc6vvxvky4zbswc1fms-tailwindcss-language-server-0.0.21/bin/tailwindcss-language-server"
+		lspconfig.tailwindcss.setup({
+			cmd = { tailwindcss_path, "--stdio" },
+			filetypes = { "html", "css", "scss", "javascript", "javascriptreact", "typescript", "typescriptreact" },
+			capabilities = cmp_nvim_lsp.default_capabilities(),
 		})
 	end,
 }

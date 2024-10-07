@@ -23,7 +23,7 @@ keymap.set("n","<leader>t]","<cmd>tabn<CR>" , {desc = "go to next tab" })
 keymap.set("n","<leader>t[" , "<cmd>tabp<CR>" , {desc = "go to previous tab"})
 keymap.set("n","<leader>tt" , "<cmd>tabnew %<CR>", {desc = "open current buffer in new tab" })
 
-keymap.set('n', '<leader>xx', ':qa!<CR>', { noremap = true, silent = true, desc = 'Close all open files' })
+--keymap.set('n', '<leader>xx', ':qa!<CR>', { noremap = true, silent = true, desc = 'Close all open files' })
 --auto brackets
 keymap.set("i","\"","\"\"<left>",{desc = "auto"})
 keymap.set("i","\'","\'\'<left>",{desc = "auto"})
