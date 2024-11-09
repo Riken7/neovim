@@ -10,10 +10,12 @@ return {
 			typescriptreact = { "eslint_d" },
 			javascriptreact = { "eslint_d" },
 			lua = { "luacheck" },
-			python = { "flake8" },
-			--rust = { "cargo" },
-			-- cpp = { "clang-tidy" },
-			-- c = { "clang-tidy" },
+			python = { "pylint" },
+			--rust = { "clippy" },
+      --nix = { "nix-linter" },
+      java = { "checkstyle" },
+      c = { "cppcheck" },
+      cpp = { "cppcheck" },
 		}
 
 		local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })

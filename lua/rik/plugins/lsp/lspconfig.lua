@@ -66,7 +66,12 @@ return {
       local hl = "DiagnosticSign" .. type
       vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
     end
-    local lua_ls_path = "/nix/store/3fp5s0cydnczsh74ylsqni2c3kiapx4s-lua-language-server-3.10.6/bin/lua-language-server"
+    lspconfig.nixd.setup({
+      cmd = { "nixd" },
+      capabilities = cmp_nvim_lsp.default_capabilities(),
+      filetypes = { "nix" },
+    })
+    local lua_ls_path = "/etc/profiles/per-user/rik/bin/lua-language-server"
     lspconfig.lua_ls.setup({
       cmd = { lua_ls_path },
       capabilities = cmp_nvim_lsp.default_capabilities(),
@@ -74,14 +79,14 @@ return {
         Lua = {
           diagnostics = {
             globals = { "vim" },
-          },
+           },
           format = {
             enable = true,
           },
         },
       },
     })
-    local jdtls_path = "/nix/store/smcs8wil4sdwn1lgfpir3yzbnfa6nmrc-jdt-language-server-1.39.0/bin/jdtls"
+    local jdtls_path = "/etc/profiles/per-user/rik/bin/jdtls"
     lspconfig.jdtls.setup({
       cmd = { jdtls_path, "--add-modules", "java.se", "--add-exports", "java.base/java.lang=ALL-UNNAMED" },
       root_dir = function(fname)
@@ -108,18 +113,14 @@ return {
         },
       },
     })
+    local clangd_path = "/etc/profiles/per-user/rik/bin/ccls"
     lspconfig.clangd.setup({
       cmd = { clangd_path },
       capabilities = cmp_nvim_lsp.default_capabilities(),
       filetypes = { "c", "cpp", "objc", "objcpp" },
-      settings = {
-        clangd = {
-          --additional settings
-        },
-      },
     })
 
-    local rust_path = "/nix/store/0fdrbfqza9p1vwzccy1hb1pdbx55hags-rust-analyzer-2024-09-02/bin/rust-analyzer"
+    local rust_path = "/etc/profiles/per-user/rik/bin/rust-analyzer"
     lspconfig.rust_analyzer.setup({
       on_attach = function(client, bufnr)
         vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
@@ -141,21 +142,12 @@ return {
         },
       },
     })
-    local ts_path =
-    "/nix/store/rv4pwdwp3axbdip0l4fq0i8sa1caws3k-typescript-language-server-4.3.3/bin/typescript-language-server"
+    local ts_path = "/etc/profiles/per-user/rik/bin/typescript-language-server"
     lspconfig.ts_ls.setup({
       cmd = { ts_path, "--stdio" },
       filetypes = { "typescript", "typescriptreact", "typescript.tsx" },
       root_dir = lspconfig.util.root_pattern("tsconfig.json", "jsconfig.json", ".git"),
       capabilities = cmp_nvim_lsp.default_capabilities(),
-      settings = {
-        typescript = {
-          --additional settings
-        },
-        javascript = {
-          --additional settings
-        },
-      },
     })
     lspconfig.pyright.setup({
       capabilities = cmp_nvim_lsp.default_capabilities(),
@@ -168,7 +160,7 @@ return {
       },
     })
     local tailwindcss_path =
-    "/nix/store/fzlkpk5p2w7piqc6vvxvky4zbswc1fms-tailwindcss-language-server-0.0.21/bin/tailwindcss-language-server"
+    "/etc/profiles/per-user/rik/bin/tailwindcss-language-server"
     lspconfig.tailwindcss.setup({
       cmd = { tailwindcss_path, "--stdio" },
       filetypes = { "html", "css", "scss", "javascript", "javascriptreact", "typescript", "typescriptreact" },

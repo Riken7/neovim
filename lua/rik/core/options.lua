@@ -15,10 +15,10 @@ opt.wrap = false
 
 --search settings
 opt.ignorecase = true
-opt.smartcase = true 
+opt.smartcase = true
 opt.cursorline = true
 
---backspace 
+--backspace
 opt.backspace = "indent,eol,start"
 
 --clipboard
