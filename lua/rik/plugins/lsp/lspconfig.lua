@@ -79,7 +79,7 @@ return {
         Lua = {
           diagnostics = {
             globals = { "vim" },
-           },
+          },
           format = {
             enable = true,
           },
@@ -134,11 +134,20 @@ return {
           cargo = {
             buildScripts = { enable = true },
             allFeatures = true,
+            loadOutDirsFromCheck = true,
           },
           imports = {
             granularity = { group = "module" },
           },
           procMacro = { enable = true },
+          diagnostics = {
+            enable = true
+          },
+          checkOnSave = {
+            enable = true,
+            command = "clippy",
+          },
+          completion = { autoImport = { enable = true } },
         },
       },
     })
