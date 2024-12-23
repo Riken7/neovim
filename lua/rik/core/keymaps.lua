@@ -3,7 +3,7 @@ vim.g.mapleader = " "
 local keymap = vim.keymap
 
 keymap.set("i","jk","<ESC>", {desc = "Exit insert mode with jk"}) --how it works : in I(nsert) mode when "jk" is press it will escape Insert mode
-keymap.set("n","<leader>nh",":nohl<CR>",{desc = "Clear search highlights"})
+keymap.set("n","<Esc>",":nohl<CR>",{desc = "Clear search highlights"})
 keymap.set("i","<C-Up>","<ESC>kA")
 keymap.set("i","<C-Down>","<ESC>jA")
 
