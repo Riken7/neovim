@@ -31,20 +31,23 @@ keymap.set("i","{","{}<left>",{desc = "auto complete brackets"})
 keymap.set("i","(","()<left>",{desc = "auto complete brackets"})
 keymap.set("i","[","[]<left>",{desc = "auto complete brackets"})
 
-vim.keymap.set("i", "<C-H>", "<C-w>")
+keymap.set("i", "<C-H>", "<C-w>")
 
-vim.keymap.set("v", "<C-down>", ":m '>+1<CR>gv=gv")
-vim.keymap.set("v", "<C-up>", ":m '<-2<CR>gv=gv")
+keymap.set("v", "<C-down>", ":m '>+1<CR>gv=gv")
+keymap.set("v", "<C-up>", ":m '<-2<CR>gv=gv")
 
 --replace word
-vim.keymap.set(
+keymap.set(
     "n",
     "<leader>rw",
     [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gcI<Left><Left><Left>]],
     { desc = "Search and replace current word under cursor in current file" }
 )
 
-vim.keymap.set("n", "<C-a>", "gg0VG$")
-vim.keymap.set("i", "<C-a>", "<ESC>gg0VG$")
+keymap.set("n", "<C-a>", "gg0VG$")
+keymap.set("i", "<C-a>", "<ESC>gg0VG$")
 
-vim.keymap.set("n", "<leader>xt", "<cmd>Telescope colorscheme<cr>", {noremap = true , silent = true, desc = "select themes"})
+keymap.set("n", "<leader>xt", "<cmd>Telescope colorscheme<cr>", {noremap = true , silent = true, desc = "select themes"})
+
+keymap.set("n", "<C-n>" , "<cmd>bnext<cr>" , {desc = "next buffer"})
+keymap.set("n", "<C-p>" , "<cmd>bprev<cr>" , {desc = "previous buffer"})
