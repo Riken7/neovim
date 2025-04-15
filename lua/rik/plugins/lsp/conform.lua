@@ -14,6 +14,7 @@ return {
         python = { "isort", "black" },
         nix = { "nixfmt" },
         c = { "clang-format" },
+        html = { "prettierd" },
       },
       formatter_on_save = {
         lsp_fallback = true,
@@ -26,7 +27,7 @@ return {
       conform.format({
         lsp_fallback = true,
         async = false,
-        timeout_ms = 1000,
+        timeout_ms = 5000,
       })
     end, { desc = "Format file" })
   end,

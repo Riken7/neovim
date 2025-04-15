@@ -88,7 +88,7 @@ return {
     })
     local jdtls_path = "/etc/profiles/per-user/rik/bin/jdtls"
     lspconfig.jdtls.setup({
-      cmd = { jdtls_path, "--add-modules", "java.se", "--add-exports", "java.base/java.lang=ALL-UNNAMED" },
+      cmd = { jdtls_path },
       root_dir = function(fname)
         local root_patterns = { ".git", "gradlew", "mvnw" }
         local found = vim.fs.find(root_patterns, { upward = true })
@@ -101,15 +101,38 @@ return {
       capabilities = vim.tbl_deep_extend(
         "force",
         vim.lsp.protocol.make_client_capabilities(),
-        require("cmp_nvim_lsp").default_capabilities()
+        require("cmp_nvim_lsp").default_capabilities({
+          workspace = {
+            configuration = true,
+          },
+          textDocument = {
+            completion = {
+              completionItem = {
+                snippetSupport = true,
+              },
+            },
+          },
+        })
       ),
-      filetypes = { "java" },
       settings = {
         java = {
           signatureHelp = { enabled = true },
-          contentProvider = { preferred = "fernflower" },
-          import = { enabled = true },
-          rename = { enabled = true },
+          formatting = {
+            enable = true,
+          },
+          sources = {
+            organizeImports = {
+              starThreshold = 9999,
+              staticStarThreshold = 9999,
+            },
+          },
+          codeGeneration = {
+            toString = {
+              template = "${object.className}{${member.name()}=${member.value}, ${otherMembers}}"
+            },
+            generateComments = true,
+            insertPackage = true,
+          },
         },
       },
     })
@@ -172,8 +195,29 @@ return {
     "/etc/profiles/per-user/rik/bin/tailwindcss-language-server"
     lspconfig.tailwindcss.setup({
       cmd = { tailwindcss_path, "--stdio" },
-      filetypes = { "html", "css", "scss", "javascript", "javascriptreact", "typescript", "typescriptreact" },
+      filetypes = { "scss", "javascript", "javascriptreact", "typescript", "typescriptreact" },
       capabilities = cmp_nvim_lsp.default_capabilities(),
+    })
+    local vscode_langserver_path = "/etc/profiles/per-user/rik/bin/vscode-html-language-server"
+    lspconfig.html.setup({
+      cmd = { vscode_langserver_path, "--stdio" },
+      capabilities = cmp_nvim_lsp.default_capabilities(),
+      filetypes = { "html" },
+      provideFormatter = true,
+      embeddedLanguages = {
+        css = true,
+        javascript = true,
+      },
+      on_attach = function(client, bufnr)
+        if client.server_capabilities.documentFormattingProvider then
+          vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.format()")
+
+          vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>lf", "<cmd>lua vim.lsp.buf.format()<CR>", {
+            noremap = true,
+            silent = true,
+          })
+        end
+        end
     })
   end,
 }

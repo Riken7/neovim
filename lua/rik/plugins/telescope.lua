@@ -21,23 +21,19 @@ return {
           },
           n = {
             ["q"] = actions.close,
-            ["d"] = function(prompt_bufnr)
-              local current_buffer = require("telescope.actions.state").get_selected_entry(prompt_bufnr)
-              local buffer_id = current_buffer.bufnr
-              if buffer_id then
-                local clients = vim.lsp.get_clients({bufnr = buffer_id})[1]
-
-                for _,client in ipairs(clients) do
-                  vim.lsp.buf_detach_client(buffer_id, client)
-                end
-                vim.api.nvim_buf_delete(buffer_id, { force = true })
-                actions.close(prompt_bufnr)
-                vim.cmd("Telescope buffers")
-              end
-            end
           },
         },
       },
+      pickers = {
+        buffers = {
+          sort_lastused = true,
+          mappings = {
+            n = {
+              ["d"] = actions.delete_buffer,
+            },
+          },
+        }
+      }
     })
     telescope.load_extension("fzf")
 
