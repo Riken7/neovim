@@ -7,7 +7,7 @@ return {
       float_opts = {
         border = "rounded",
       },
-      open_mapping = [[<leader>tn]],
+      open_mapping = [[<leader>tt]],
       insert_mappings = true,
       terminal_mappings = true,
     }

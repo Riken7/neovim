@@ -137,7 +137,7 @@ return {
       },
     })
     local clangd_path = "/etc/profiles/per-user/rik/bin/ccls"
-    lspconfig.clangd.setup({
+    lspconfig.ccls.setup({
       cmd = { clangd_path },
       capabilities = cmp_nvim_lsp.default_capabilities(),
       filetypes = { "c", "cpp", "objc", "objcpp" },
