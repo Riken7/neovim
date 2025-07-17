@@ -1,5 +1,15 @@
 vim.cmd("let g:netrw_liststyle=3")
 
+vim.diagnostic.config({
+  virtual_text = false, -- disable virtual text
+  signs = true, -- enable signs
+  underline = true, -- enable underline
+  update_in_insert = false, -- disable updates in insert mode
+  float = {
+    source = "always", -- always show source in float
+    border = "rounded", -- use rounded border for float
+  }
+})
 local opt = vim.opt
 
 opt.relativenumber = true
